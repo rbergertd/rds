@@ -95,14 +95,26 @@
             "metadata": {
                 "description": "The size of the RD infrastructure VMs"
             },
-            "defaultValue": "Standard_D2s_v3"
+            "defaultValue": "Standard_B2ms",
+            "allowedValues": [
+                "Standard_B2ms",
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3"
+            ]
         },
         "adVmSize": {
             "type": "string",
             "metadata": {
                 "description": "The size of the AD VM"
             },
-            "defaultValue": "Standard_D2s_v3"
+            "defaultValue": "Standard_B2ms",
+            "allowedValues": [
+                "Standard_B2ms",
+                "Standard_D2s_v3",
+                "Standard_D4s_v3",
+                "Standard_D8s_v3"
+            ]
         },
         "location": {
             "type": "string",
@@ -599,7 +611,7 @@
             }
         },
         {
-            "apiVersion": "2017-03-30",
+            "apiVersion": "2018-06-01",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "gw-vm",
             "location": "[parameters('location')]",
@@ -679,7 +691,7 @@
             ]
         },
         {
-            "apiVersion": "2017-03-30",
+            "apiVersion": "2018-06-01",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[concat('rdsh-', copyindex())]",
             "location": "[parameters('location')]",
@@ -714,7 +726,7 @@
                     "osDisk": {
                         "name": "[concat('rdsh-', copyindex(), '-osdisk')]",
                         "managedDisk": {
-                            "storageAccountType": "Premium_LRS"
+                            "storageAccountType": "StandardSSD_LRS"
                           },
                         "osType": "Windows",
                         "caching": "ReadWrite",
@@ -765,7 +777,7 @@
             ]
         },
         {
-            "apiVersion": "2017-03-30",
+            "apiVersion": "2018-06-01",
             "type": "Microsoft.Compute/virtualMachines",
             "name": "cb-vm",
             "location": "[parameters('location')]",
