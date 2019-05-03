@@ -34,7 +34,9 @@
         }
     },
     "variables": {
-        "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC"
+        "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+        "adPDCVMName": "advm",
+        "dscExtensionName": "InstallDomainController"
     },
     "resources": [
         {
@@ -71,7 +73,7 @@
             "name": "[concat(parameters('primaryADName'),'/SetUpGPO')]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat(parameters('primaryADName'),'/InstallDomainController')]"
+                "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('adPDCVMName'), variables('dscExtensionName'))]"
             ],
             "properties": {
                 "publisher": "Microsoft.Compute",
