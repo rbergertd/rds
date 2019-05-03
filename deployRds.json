@@ -129,7 +129,7 @@
         "adTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/adVmTemplate.json",
         "adVmDeployment": "CreateAdVms",
         "adVmDeploymentId": "[concat('Microsoft.Resources/deployments/', variables('adVmDeployment'))]",
-        "deployPrimaryAdTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployPrimaryAD.json",
+        "deployPrimaryAdTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployPrimaryAD_withGPO.json",
         "deployPrimaryAd": "DeployPrimaryAd",
         "deployPrimaryAdID": "[concat('Microsoft.Resources/deployments/', variables('deployPrimaryAd'))]",
         "adPDCVMName": "advm",
