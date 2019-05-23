@@ -90,6 +90,20 @@
                 "Standard_NV24"
               ]
         },
+        "rdshDataDisk": {
+            "type": "string",
+            "metadata": {
+                "description": "The size of the C: drive on your session hosts. Depending on the the amount of applications you'll be installing and their program files/data requirements, you may want to size up. The default (128GB) should work for most use cases."
+            },
+            "defaultValue": "128",
+            "allowedValues": [
+                "64",
+                "128",
+                "256",
+                "512",
+                "1024"
+            ]
+        },
         "rdInfraVmSize": {
             "type": "string",
             "metadata": {
@@ -726,6 +740,7 @@
                     },
                     "osDisk": {
                         "name": "[concat('rdsh-', copyindex(), '-osdisk')]",
+                        "diskSizeGB": "[parameters('rdshDataDisk')]",
                         "managedDisk": {
                             "storageAccountType": "StandardSSD_LRS"
                           },
