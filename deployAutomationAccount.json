@@ -15,6 +15,20 @@
             },
             "defaultValue": "2099/12/31"
         },
+        "scheduleid01": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
+            },
+            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9"
+        },
+        "scheduleid02": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
+            },
+            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
+        },
         "region": {
             "type": "string"
         },
@@ -38,11 +52,9 @@
         },
         "automationAccount": {
             "sku": "Free",
-            "schedule01": "[variables('scheduleid01')]",
-            "schedule02": "[variables('scheduleid02')]"
-        },
-        "scheduleid01": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9",
-        "scheduleid02": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
+            "schedule01": "[parameters('scheduleid01')]",
+            "schedule02": "[parameters('scheduleid02')]"
+        }
     },
     "resources": [
         {
