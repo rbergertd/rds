@@ -151,6 +151,20 @@
             },
             "defaultValue": "EastUS2"
         },
+        "scheduleid01": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
+            },
+            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9"
+        },
+        "scheduleid02": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
+            },
+            "defaultValue": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
+        },
         "scheduleStartDate": {
             "type": "string",
             "metadata": {
@@ -207,8 +221,6 @@
         "subnet-id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('adVnetName')),'/subnets/', variables('adSubnetName'))]",
         "assetLocation": "https://raw.githubusercontent.com/rbergertd/RDS/master",
         "automationTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployAutomationAccount.json",
-        "scheduleid01": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9",
-        "scheduleid02": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5",
         "subnets": [
             {
                 "name": "[variables('adSubnetName')]",
@@ -944,14 +956,14 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
-                    "accountName": {
+                    "automationAccountName": {
                         "value": "[parameters('automationAccountName')]"
                     },
                     "scheduleid01": {
-                        "value": "[variables('scheduleid01')]"
+                        "value": "[parameters('scheduleid01')]"
                     },
                     "scheduleid02": {
-                        "value": "[variables('scheduleid02')]"
+                        "value": "[parameters('scheduleid02')]"
                     },
                     "scheduleStartDate": {
                         "value": "[parameters('scheduleStartDate')]"
