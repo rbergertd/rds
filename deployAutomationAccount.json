@@ -2,20 +2,11 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "accountName": {
+        "automationAccountName": {
             "type": "string",
             "metadata": {
                 "description": "The name of the Azure Automation account to deploy to."
             }
-        },
-        "scheduleid01": {
-            "type": "string"
-        },
-        "scheduleid02": {
-            "type": "string"
-        },
-        "templateRootUri": {
-            "type": "string"
         },
         "scheduleStartDate": {
             "type": "string",
@@ -47,13 +38,15 @@
         },
         "automationAccount": {
             "sku": "Free",
-            "schedule01": "[parameters('scheduleid01')]",
-            "schedule02": "[parameters('scheduleid02')]"
-        }
+            "schedule01": "[variables('scheduleid01')]",
+            "schedule02": "[variables('scheduleid02')]"
+        },
+        "scheduleid01": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9",
+        "scheduleid02": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5"
     },
     "resources": [
         {
-            "name": "[parameters('accountName')]",
+            "name": "[parameters('automationAccountName')]",
             "type": "Microsoft.Automation/automationAccounts",
             "apiVersion": "[variables('apiVersions').automation]",
             "location": "[parameters('region')]",
@@ -66,12 +59,12 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/Invoke-StartStopBusinessHoursVM')]",
+            "name": "[concat(parameters('automationAccountName'), '/Invoke-StartStopBusinessHoursVM')]",
             "type": "Microsoft.Automation/automationAccounts/runbooks",
             "apiVersion": "[variables('apiVersions').automation]",
             "location": "[parameters('region')]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -80,17 +73,17 @@
                 "logVerbose": "false",
                 "description": "Starts or Stops ARM based VM's based on tags",
                 "publishContentLink": {
-                    "uri": "[concat(parameters('templateRootUri'),'scripts/','Invoke-StartStopBusinessHoursVM.ps1')]",
+                    "uri": "https://raw.githubusercontent.com/rbergertd/rds/master/startstop-runbook.ps1",
                     "version": "1.0.0.0"
                 }
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/Daily9AM')]",
+            "name": "[concat(parameters('automationAccountName'), '/Daily9AM')]",
             "type": "microsoft.automation/automationAccounts/schedules",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -102,13 +95,13 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/', variables('automationAccount').schedule01)]",
+            "name": "[concat(parameters('automationAccountName'), '/', variables('automationAccount').schedule01)]",
             "type": "microsoft.automation/automationAccounts/jobSchedules",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]",
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/schedules/Daily9AM')]",
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]",
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'), '/schedules/Daily9AM')]",
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]"
             ],
             "tags": {},
             "properties": {
@@ -124,12 +117,12 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/Daily9PM')]",
+            "name": "[concat(parameters('automationAccountName'), '/Daily9PM')]",
             "type": "microsoft.automation/automationAccounts/schedules",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]",
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]",
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -141,13 +134,13 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/', variables('automationAccount').schedule02)]",
+            "name": "[concat(parameters('automationAccountName'), '/', variables('automationAccount').schedule02)]",
             "type": "microsoft.automation/automationAccounts/jobSchedules",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]",
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]",
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'), '/schedules/Daily9PM')]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'), '/runbooks/Invoke-StartStopBusinessHoursVM')]",
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]",
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'), '/schedules/Daily9PM')]"
             ],
             "tags": {},
             "properties": {
@@ -160,11 +153,11 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/StartStopTagKeyValuePair') ]",
+            "name": "[concat(parameters('automationAccountName'), '/StartStopTagKeyValuePair') ]",
             "type": "microsoft.automation/automationAccounts/variables",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -175,11 +168,11 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/AzureSubscriptionId') ]",
+            "name": "[concat(parameters('automationAccountName'), '/AzureSubscriptionId') ]",
             "type": "microsoft.automation/automationAccounts/variables",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -190,11 +183,11 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/AzureTenantId') ]",
+            "name": "[concat(parameters('automationAccountName'), '/AzureTenantId') ]",
             "type": "microsoft.automation/automationAccounts/variables",
             "apiVersion": "[variables('apiVersions').automation]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {
@@ -205,12 +198,12 @@
             }
         },
         {
-            "name": "[concat(parameters('accountName'), '/AzureServicePrincipal') ]",
+            "name": "[concat(parameters('automationAccountName'), '/AzureServicePrincipal') ]",
             "type": "microsoft.automation/automationAccounts/credentials",
             "apiVersion": "[variables('apiVersions').automation]",
             "location": "[resourceGroup().location]",
             "dependsOn": [
-                "[concat('Microsoft.Automation/automationAccounts/', parameters('accountName'))]"
+                "[concat('Microsoft.Automation/automationAccounts/', parameters('automationAccountName'))]"
             ],
             "tags": {},
             "properties": {

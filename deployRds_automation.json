@@ -134,7 +134,29 @@
             "type": "string",
             "metadata": {
                 "description": "Name for the automation account. This is the resource that will control the power scheduling for the N-series virtual machines to keep your Azure spend down."
-            }
+            },
+            "defaultValue": "AutoDeskAutomationAccount"
+        },
+        "automationAccountSpn": {
+            "type": "string",
+            "metadata": {
+                "description": "Name for the automation credential. This is the credential that will be created as a service principal, to RUN the runbook within the automation account."
+            },
+            "defaultValue": "AutoDeskAutomationSPN"
+        },
+        "automationAccountLocation": {
+            "type": "string",
+            "metadata": {
+                "description": "Location for the automation account. Since this service is not available in all regions at this time, select a region in the dropdown."
+            },
+            "defaultValue": "EastUS2"
+        },
+        "scheduleStartDate": {
+            "type": "string",
+            "metadata": {
+                "description": "The start data (in format, yyyy/mm/dd) for the runbook that will control the start up, and shut down for the Remote Desktop Session Host N-series virtual machines. This will help keep your Azure spend down by powering them off after working hours."
+            },
+            "defaultValue": "2099/12/01"
         },
         "location": {
             "type": "string",
@@ -907,10 +929,14 @@
             }
         },
         {
-            "name": "omsAzureAutomationDeployment",
+            "name": "AutoDeskAutomationAccount",
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2015-01-01",
-            "dependsOn": [],
+            "dependsOn": [
+                "[resourceId('Microsoft.Compute/virtualMachines', 'cb-vm')]",
+                "Microsoft.Compute/virtualMachines/gw-vm/extensions/gateway",
+                "rdsh-vm-loop"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -927,17 +953,14 @@
                     "scheduleid02": {
                         "value": "[variables('scheduleid02')]"
                     },
-                    "templateRootUri": {
-                        "value": "[variables('baseTemplateUri')]"
-                    },
                     "scheduleStartDate": {
                         "value": "[parameters('scheduleStartDate')]"
                     },
                     "region": {
-                        "value": "[variables('omsSettings').automationRegion]"
+                        "value": "[parameters('automationAccountLocation')]"
                     },
                     "userName":{
-                        "value":"[parameters('SPNId')]"
+                        "value":"[parameters('automationAccountSpn')]"
                     },
                     "password":{
                         "value":"[parameters('adminPassword')]"
