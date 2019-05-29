@@ -184,6 +184,9 @@
         "sessionHostExt": "sessionhost",
         "subnet-id": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('adVnetName')),'/subnets/', variables('adSubnetName'))]",
         "assetLocation": "https://raw.githubusercontent.com/rbergertd/RDS/master",
+        "automationTemplateURL": "https://raw.githubusercontent.com/rbergertd/RDS/master/deployAutomationAccount.json",
+        "scheduleid01": "be55e7b7-ba86-48d6-9efd-49f3d310bcb9",
+        "scheduleid02": "be55e7b7-ba86-48d6-9efd-49f3d310bcc5",
         "subnets": [
             {
                 "name": "[variables('adSubnetName')]",
@@ -901,6 +904,46 @@
                 },
                 "type": "DSC",
                 "typeHandlerVersion": "2.11"
+            }
+        },
+        {
+            "name": "omsAzureAutomationDeployment",
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2015-01-01",
+            "dependsOn": [],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('automationTemplateURL')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "accountName": {
+                        "value": "[parameters('automationAccountName')]"
+                    },
+                    "scheduleid01": {
+                        "value": "[variables('scheduleid01')]"
+                    },
+                    "scheduleid02": {
+                        "value": "[variables('scheduleid02')]"
+                    },
+                    "templateRootUri": {
+                        "value": "[variables('baseTemplateUri')]"
+                    },
+                    "scheduleStartDate": {
+                        "value": "[parameters('scheduleStartDate')]"
+                    },
+                    "region": {
+                        "value": "[variables('omsSettings').automationRegion]"
+                    },
+                    "userName":{
+                        "value":"[parameters('SPNId')]"
+                    },
+                    "password":{
+                        "value":"[parameters('adminPassword')]"
+                    }
+                   
+                }
             }
         }
     ],
