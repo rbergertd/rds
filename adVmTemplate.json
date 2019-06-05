@@ -110,7 +110,7 @@
                         "version": "latest"
                     },
                     "osDisk": {
-                        "name": "osdisk",
+                        "name": "ad-osdisk",
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
                         "managedDisk": {
