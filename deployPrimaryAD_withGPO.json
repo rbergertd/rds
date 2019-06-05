@@ -35,7 +35,7 @@
     },
     "variables": {
         "adPDCConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
-        "adPDCVMName": "advm",
+        "adPDCVMName": "ad-vm",
         "dscExtensionName": "InstallDomainController"
     },
     "resources": [
