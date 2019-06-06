@@ -18,16 +18,16 @@
         "adDomainName": {
             "type": "string",
             "metadata": {
-                "description": "The name of the AD domain. For example contoso.com"
+                "description": "The name of the AD domain that will be created and used for the rest of the deployment. For example, techdata.com"
             },
-            "defaultValue": "contoso.com"
+            "defaultValue": "techdata.com"
         },
         "adminUsername": {
             "type": "string",
             "metadata": {
                 "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'administrator'. For example johnadmin"
             },
-            "defaultValue": "vmadmin"
+            "defaultValue": "rdsadmin"
         },
         "adminPassword": {
             "type": "securestring",
