@@ -25,9 +25,9 @@
         "adminUsername": {
             "type": "string",
             "metadata": {
-                "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'administrator'. For example johnadmin"
+                "description": "The name of the administrator of the new VM and the domain. Exclusion list: 'administrator'."
             },
-            "defaultValue": "rdsadmin"
+            "defaultValue": "autodeskadmin"
         },
         "adminPassword": {
             "type": "securestring",
