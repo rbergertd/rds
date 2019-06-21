@@ -39,7 +39,8 @@
             "type": "string",
             "allowedValues": [
                 "2012-R2-Datacenter",
-                "2016-Datacenter"
+                "2016-Datacenter",
+                "2019-Datacenter"
             ],
             "metadata": {
                 "description": "Windows server SKU"
@@ -499,6 +500,9 @@
                     },
                     "vmSize": {
                         "value": "[parameters('adVmSize')]"
+                    },
+                    "imageSku": {
+                        "value": "[parameters('imageSKU')]"
                     },
                     "adDNicName": {
                         "value": "[variables('adNICName')]"
