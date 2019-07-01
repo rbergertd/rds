@@ -1,6 +1,6 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.7.0.0",
+    "contentVersion": "1.6.2.0",
     "parameters": {
         "gwdnsLabelPrefix": {
             "type": "string",
@@ -155,7 +155,7 @@
         "rdpNAT": "ADRDPNAT",
         "publiclbID": "[resourceId('Microsoft.Network/loadBalancers',variables('publicLBName'))]",
         "publiclbFEConfigID": "[concat(variables('publiclbID'),'/frontendIPConfigurations/',variables('lbFE'))]",
-        "rdpPort": 3389,
+        "rdpPort": 5573,
         "adRDPNATRuleID": "[concat(variables('publiclbID'),'/inboundNatRules/',variables('rdpNAT'))]",
         "adNICName": "ad-nic",
         "lbBE": "ADLBBE",
@@ -416,7 +416,7 @@
                                 "id": "[variables('gwlbFEConfigID')]"
                             },
                             "protocol": "tcp",
-                            "frontendPort": 3389,
+                            "frontendPort": "[variables('rdpPort')]",
                             "backendPort": 3389,
                             "enableFloatingIP": false
                         }
